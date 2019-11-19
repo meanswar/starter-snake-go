@@ -33,8 +33,24 @@ func Move(res http.ResponseWriter, req *http.Request) {
 	}
 	dump(decoded)
 
+	moveDirection := "left"
+	yourHeadCoord := decoded.You.Body[0]
+
+	if yourHeadCoord.X < 3 {
+		moveDirection = "up"
+	}
+	if yourHeadCoord.Y < 3 {
+		moveDirection = "right"
+	}
+	if yourHeadCoord.X > 8 && yourHeadCoord.Y < 8 {
+		moveDirection = "down"
+	}
+	if decoded.Turn > 100 {
+		moveDirection = "left"
+	}
+
 	respond(res, api.MoveResponse{
-		Move: "down",
+		Move: moveDirection,
 	})
 }
 
